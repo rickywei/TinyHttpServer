@@ -16,6 +16,7 @@ using namespace std;
 
 class HttpConn {
  public:
+  HttpConn() = default;
   HttpConn(int fd, const sockaddr_in& addr);
   ~HttpConn();
   void Init(int sockFd, const sockaddr_in& addr);

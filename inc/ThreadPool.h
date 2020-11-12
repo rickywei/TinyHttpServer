@@ -26,6 +26,7 @@ class ThreadPool {
     condition_variable cv;
     bool isClose;
     queue<Task> tasks;
+    Pool() : mtx(), cv(), isClose(false), tasks() {}
   };
   shared_ptr<Pool> pool_;
 };

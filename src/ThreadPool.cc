@@ -2,10 +2,15 @@
 
 #include <cassert>
 
-using namespace hs;
+#include "Logger.h"
 
-ThreadPool::ThreadPool(size_t thread_num) {
+using namespace hs;
+using namespace log;
+
+ThreadPool::ThreadPool(size_t thread_num)
+    : pool_(make_shared<ThreadPool::Pool>()) {
   assert(thread_num > 0);
+  INFO() << "Create Threadpool...";
   for (size_t i = 0; i < thread_num; ++i) {
     thread t(&ThreadPool::ThreadFunc, this);
     t.detach();
@@ -29,6 +34,7 @@ void ThreadPool::ThreadFunc() {
       Task task = move(pool_->tasks.front());
       pool_->tasks.pop();
       locker.unlock();
+      ERROR() << to_string(pool_->tasks.size());
       task();
       locker.lock();
     } else if (pool_->isClose) {
@@ -44,5 +50,6 @@ void ThreadPool::AddTask(Task&& task) {
     lock_guard<mutex> locker(pool_->mtx);
     pool_->tasks.emplace(task);
   }
+  ERROR() << "new task";
   pool_->cv.notify_one();
 }

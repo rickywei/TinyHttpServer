@@ -9,7 +9,7 @@ TimerManager::~TimerManager() {}
 void TimerManager::AddTimerNode(int fd, int timeout,
                                 const TimeoutCallBack& cb) {
   SPTN tn =
-      make_shared<TimerNode>(fd, Clock::now(), static_cast<MS>(timeout), cb);
+      make_shared<TimerNode>(fd, Clock::now() + static_cast<MS>(timeout), cb);
   timers_.emplace(tn);
   fd2node_[fd] = tn;
 }

@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMKAE_CXX_COMPILER g++)
 
-include_directories()(./inc)
+include_directories(./inc)
 
 aux_source_directory(./src SRC)
 

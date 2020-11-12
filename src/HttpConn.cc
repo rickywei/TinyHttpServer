@@ -4,9 +4,12 @@
 
 #include <cassert>
 
-using namespace hs;
+#include "Logger.h"
 
-const string HttpConn::src_dir = "./pages";
+using namespace hs;
+using namespace log;
+
+const string HttpConn::src_dir = string(getcwd(nullptr, 256)).append("/pages/");
 atomic<int> HttpConn::conns;
 
 HttpConn::HttpConn(int fd, const sockaddr_in &addr)
@@ -30,18 +33,21 @@ void HttpConn::Init(int fd, const sockaddr_in &addr) {
 
 ssize_t HttpConn::Read(int &saveError) {
   char buff[65535];
-  read_buff_.clear();
-  ssize_t len = read(fd_, &buff, 65535);
+  ssize_t len = read(fd_, &buff, sizeof(buff));
   if (len <= 0) {
     saveError = errno;
+    return len;
   }
+  read_buff_.clear();
   read_buff_.append(buff);
+  DEBUG() << "read_buff_ is" << read_buff_;
   return len;
 }
 
 ssize_t HttpConn::Write(int &saveError) {
   ssize_t len = write(fd_, write_buff_.data(), write_buff_.size());
-  if (len <= 0) {
+  DEBUG() << write_buff_;
+  if (len < 0) {
     saveError = errno;
     return len;
   } else if (len >= write_buff_.size()) {
@@ -66,6 +72,7 @@ bool HttpConn::Process() {
   if (read_buff_.size() <= 0) {
     return false;
   } else if (request_.Parse(read_buff_)) {
+    DEBUG() << request_.GetPath();
     response_.Init(src_dir, request_.GetPath(), request_.GetIsKeepAlive(), 200);
   } else {
     response_.Init(src_dir, request_.GetPath(), false, 400);

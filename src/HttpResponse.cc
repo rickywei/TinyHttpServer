@@ -1,8 +1,14 @@
 #include "HttpResponse.h"
 
-#include <cassert>
+#include <assert.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+
+#include "Logger.h"
 
 using namespace hs;
+using namespace log;
 
 const unordered_map<string, string> HttpResponse::SUFFIX_TYPE = {
     {".html", "text/html"},
@@ -48,9 +54,9 @@ HttpResponse::HttpResponse()
 
 HttpResponse::~HttpResponse() { UnmapFile(); }
 
-void HttpResponse::Init(const string& srcDir, string& path, bool isKeepAlive,
+void HttpResponse::Init(const string& srcDir, string&& path, bool isKeepAlive,
                         int code) {
-  assert(src_dir_ != "");
+  assert(srcDir != "");
   if (mmFile_) {
     UnmapFile();
   }
@@ -104,4 +110,69 @@ void HttpResponse::AddHeader_(string& buff) {
     buff.append("close\r\n");
   }
   buff.append("Content-type: " + GetFileType_() + "\r\n");
+}
+
+void HttpResponse::AddContent_(string& buff) {
+  int srcFd = open((src_dir_ + path_).data(), O_RDONLY);
+  if (srcFd < 0) {
+    DEBUG() << src_dir_ << path_;
+    ErrorContent(buff, "File NotFound!");
+    return;
+  }
+  int* mmRet =
+      (int*)mmap(0, mmFile_stat_.st_size, PROT_READ, MAP_PRIVATE, srcFd, 0);
+  if (*mmRet == -1) {
+    DEBUG() << "mmap failed";
+    ErrorContent(buff, "File NotFound!");
+    return;
+  }
+  mmFile_ = (char*)mmRet;
+  close(srcFd);
+  buff.append("Content-length: " + to_string(mmFile_stat_.st_size) +
+              "\r\n\r\n");
+  buff.append(mmFile_, mmFile_stat_.st_size);
+}
+
+void HttpResponse::ErrorContent(string& buff, std::string message) {
+  string body;
+  string status;
+  body += "<html><title>Error</title>";
+  body += "<body bgcolor=\"ffffff\">";
+  if (CODE_STATUS.count(code_) == 1) {
+    status = CODE_STATUS.find(code_)->second;
+  } else {
+    status = "Bad Request";
+  }
+  body += to_string(code_) + " : " + status + "\n";
+  body += "<p>" + message + "</p>";
+  body += "<hr><em>TinyHttpServer by RickyWei</em></body></html>";
+
+  buff.append("Content-length: " + to_string(body.size()) + "\r\n\r\n");
+  buff.append(body);
+}
+
+void HttpResponse::ErrorHtml_() {
+  if (CODE_PATH.count(code_) == 1) {
+    path_ = CODE_PATH.find(code_)->second;
+    stat((src_dir_ + path_).data(), &mmFile_stat_);
+  }
+}
+
+void HttpResponse::UnmapFile() {
+  if (mmFile_) {
+    munmap(mmFile_, mmFile_stat_.st_size);
+    mmFile_ = nullptr;
+  }
+}
+
+string HttpResponse::GetFileType_() {
+  string::size_type idx = path_.find_last_of('.');
+  if (idx == string::npos) {
+    return "text/plain";
+  }
+  string suffix = path_.substr(idx);
+  if (SUFFIX_TYPE.count(suffix) == 1) {
+    return SUFFIX_TYPE.find(suffix)->second;
+  }
+  return "text/plain";
 }

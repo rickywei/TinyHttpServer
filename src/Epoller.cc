@@ -1,23 +1,27 @@
 #include "Epoller.h"
 
+#include <Logger.h>
+#include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-#include <cassert>
-
 using namespace hs;
+using namespace log;
 
 Epoller::Epoller(int max_event)
-    : epoll_fd_(epoll_create(max_event)), events_() {}
+    : epoll_fd_(epoll_create1(0)), events_(max_event) {
+  assert(epoll_fd_ >= 0 && events_.size() > 0);
+}
 
 Epoller::~Epoller() { close(epoll_fd_); }
 
 bool Epoller::AddFd(int fd, uint32_t events) {
   if (fd < 0) {
+    ERROR() << "Invalid fd";
     return false;
   }
-  epoll_event ev;
+  epoll_event ev = {0};
   ev.data.fd = fd;
   ev.events = events;
   return 0 == epoll_ctl(epoll_fd_, EPOLL_CTL_ADD, fd, &ev);
@@ -27,10 +31,16 @@ bool Epoller::ModFd(int fd, uint32_t events) {
   if (fd < 0) {
     return false;
   }
-  epoll_event ev;
+  epoll_event ev = {0};
   ev.data.fd = fd;
   ev.events = events;
   return 0 == epoll_ctl(epoll_fd_, EPOLL_CTL_MOD, fd, &ev);
+}
+
+bool Epoller::DelFd(int fd) {
+  if (fd < 0) return false;
+  epoll_event ev = {0};
+  return 0 == epoll_ctl(epoll_fd_, EPOLL_CTL_DEL, fd, &ev);
 }
 
 int Epoller::Wait(int timeoutMS) {

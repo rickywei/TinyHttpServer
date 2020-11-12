@@ -3,7 +3,10 @@
 #include <cassert>
 #include <regex>
 
+#include "Logger.h"
+
 using namespace hs;
+using namespace log;
 
 HttpRequest::HttpRequest()
     : state_(REQUEST_LINE),
@@ -35,15 +38,22 @@ bool HttpRequest::Parse(string &buff) {
       case REQUEST_LINE:
         if (ParseRequestLine_(line)) {
           ParsePath_();
+          DEBUG();
         } else {
           return false;
         }
         break;
       case HEADERS:
         ParseHeader_(line);
+        if (end_pos + 2 >= buff.size()) {
+          state_ = FINISH;
+          DEBUG() << "No body";
+        }
+        DEBUG();
         break;
       case BODY:
         ParseBody_(line);
+        DEBUG();
         break;
       default:
         break;
@@ -89,8 +99,9 @@ bool HttpRequest::ParseRequestLine_(const string &line) {
 
 void HttpRequest::ParsePath_() {
   if (path_ == "/") {
-    path_ == "/index.html";
+    path_ = "/index.html";
   }
+  DEBUG() << "path is " << path_ << (to_string(path_ == " /"));
 }
 
 void HttpRequest::ParseHeader_(const string &line) {
@@ -99,6 +110,9 @@ void HttpRequest::ParseHeader_(const string &line) {
   if (regex_match(line, match, pattern)) {
     header_[match[1]] = match[2];
   } else {
+    for (auto it : header_) {
+      DEBUG() << it.first << " " << it.second;
+    }
     state_ = BODY;
   }
 }

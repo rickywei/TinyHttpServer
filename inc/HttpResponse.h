@@ -26,6 +26,7 @@ class HttpResponse {
   void AddStateLine_(string& buff);
   void AddHeader_(string& buff);
   void AddContent_(string& buff);
+  void ErrorContent(string& buff, std::string message);
   void ErrorHtml_();
   string GetFileType_();
 

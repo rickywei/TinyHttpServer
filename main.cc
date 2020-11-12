@@ -1,7 +1,16 @@
+#include <stdio.h>
+
 #include "HttpServer.h"
+#include "Logger.h"
+
+using namespace hs;
+using namespace log;
 
 int main() {
-  server = HttpServer();
-  server.start();
+  Logger::Init();
+
+  HttpServer server;
+  server.Start();
+
   return 0;
 }

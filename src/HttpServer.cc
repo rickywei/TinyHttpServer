@@ -6,10 +6,12 @@
 #include <unistd.h>
 
 #include "Epoller.h"
+#include "Logger.h"
 #include "ThreadPool.h"
 #include "Timer.h"
 
 using namespace hs;
+using namespace log;
 
 HttpServer::HttpServer(int port)
     : port_(port),
@@ -17,7 +19,7 @@ HttpServer::HttpServer(int port)
       timeoutMS_(60000),
       isClose_(false),
       listen_event_(EPOLLRDHUP),
-      conn_event_(EPOLLONESHOT | EPOLLRDHUP),
+      conn_event_(EPOLLRDHUP | EPOLLONESHOT),
       timer_(make_unique<TimerManager>()),
       pool_(make_unique<ThreadPool>()),
       epoller_(make_unique<Epoller>()) {
@@ -32,6 +34,9 @@ HttpServer::~HttpServer() {
 }
 
 void HttpServer::Start() {
+  if (!isClose_) {
+    INFO() << "Start Server";
+  }
   while (!isClose_) {
     int event_cnt = epoller_->Wait();
     for (int i = 0; i < event_cnt; ++i) {
@@ -44,9 +49,11 @@ void HttpServer::Start() {
         CloseConn_(&conns_[fd]);
       } else if (events & EPOLLIN) {
         assert(conns_.count(fd) > 0);
+        DEBUG() << "EPOLLIN";
         HandleRead_(&conns_[fd]);
       } else if (events & EPOLLOUT) {
         assert(conns_.count(fd) > 0);
+        DEBUG() << "EPOLLOUT";
         HandleWrite_(&conns_[fd]);
       } else {
       }
@@ -56,6 +63,7 @@ void HttpServer::Start() {
 
 bool HttpServer::InitSocket_() {
   if (port_ > 65535 || port_ < 0) {
+    ERROR() << "Invalid Port";
     return false;
   }
   struct sockaddr_in addr;
@@ -69,20 +77,38 @@ bool HttpServer::InitSocket_() {
   }
   listen_fd_ = socket(AF_INET, SOCK_STREAM, 0);
   if (listen_fd_ < 0) {
+    ERROR() << "Create listen fd failed";
     return false;
   }
   int ret = setsockopt(listen_fd_, SOL_SOCKET, SO_LINGER, &optLinger,
                        sizeof(optLinger));
   if (ret < 0) {
+    ERROR() << "Set listen socket opt failed";
     close(listen_fd_);
     return false;
   }
   ret = bind(listen_fd_, (struct sockaddr*)&addr, sizeof(addr));
   if (ret < 0) {
+    ERROR() << "Bind listent socket failed";
+    return false;
+  }
+  ret = listen(listen_fd_, 128);
+  if (ret < 0) {
+    ERROR() << "Listen failed";
+    close(listen_fd_);
     return false;
   }
   ret = epoller_->AddFd(listen_fd_, listen_event_ | EPOLLIN);
-  SetFdNoblock(listen_fd_);
+  if (!ret) {
+    ERROR() << "Add listen fd failed";
+    return false;
+  }
+  ret = SetFdNoblock(listen_fd_);
+  if (ret < 0) {
+    ERROR() << "Set Listen fd no block failed";
+    return false;
+  }
+  INFO() << "Listen at " << inet_ntoa(addr.sin_addr) << ":" << to_string(port_);
   return true;
 }
 
@@ -95,6 +121,7 @@ void HttpServer::AddHttpConn_(int fd, sockaddr_in addr) {
   }
   epoller_->AddFd(fd, conn_event_ | EPOLLIN);
   SetFdNoblock(fd);
+  INFO() << "Add new HttpConn from " << inet_ntoa(addr.sin_addr);
 }
 
 void HttpServer::HandleListen_() {
@@ -102,22 +129,28 @@ void HttpServer::HandleListen_() {
   socklen_t len = sizeof(addr);
   int fd = accept(listen_fd_, (struct sockaddr*)&addr, &len);
   if (fd <= 0) {
+    ERROR() << "Accept failed";
     return;
   } else if (HttpConn::conns > MAX_FD) {
+    WARN() << "Too many connections";
     SendError_(fd, "Server Busy...");
     return;
   }
+  AddHttpConn_(fd, addr);
+  INFO() << "Accept from " << inet_ntoa(addr.sin_addr);
 }
 
 void HttpServer::HandleRead_(HttpConn* hc) {
   assert(hc);
   ExtentTime_(hc);
+  ERROR() << "handle read";
   pool_->AddTask(bind(&HttpServer::OnRead_, this, hc));
 }
 
 void HttpServer::HandleWrite_(HttpConn* hc) {
   assert(hc);
   ExtentTime_(hc);
+  ERROR() << "handle write";
   pool_->AddTask(bind(&HttpServer::OnWrite_, this, hc));
 }
 
@@ -130,6 +163,7 @@ void HttpServer::OnRead_(HttpConn* hc) {
     CloseConn_(hc);
     return;
   }
+  DEBUG() << "Process request";
   OnProcess_(hc);
 }
 
@@ -138,12 +172,13 @@ void HttpServer::OnWrite_(HttpConn* hc) {
   int ret = -1;
   int writeError = 0;
   ret = hc->Write(writeError);
-  if (ret >= 0) {
+  return;
+  if (ret > 0) {
     if (hc->GetIsKeepAlive()) {
       OnProcess_(hc);
       return;
     }
-  } else {
+  } else if (ret < 0) {
     if (writeError == EAGAIN) {
       epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLOUT);
       return;
@@ -154,13 +189,20 @@ void HttpServer::OnWrite_(HttpConn* hc) {
 
 void HttpServer::OnProcess_(HttpConn* hc) {
   if (hc->Process()) {
+    DEBUG() << "Process successfully, begin to write";
     epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLOUT);
   } else {
+    DEBUG() << "Process failed";
     epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLIN);
   }
 }
 
-void ExtentTime_(HttpConn* hc) {}
+void HttpServer::SendError_(int fd, const char* info) {}
+
+void HttpServer::ExtentTime_(HttpConn* hc) {
+  assert(hc);
+  timer_->ModEpireTime(hc->GetFd(), 60000);
+}
 
 void HttpServer::CloseConn_(HttpConn* hc) {
   assert(hc);

@@ -18,7 +18,7 @@ class HttpServer {
  public:
   HttpServer(int port = 8080);
   ~HttpServer();
-  void HttpServer::Start();
+  void Start();
 
  private:
   bool InitSocket_();
