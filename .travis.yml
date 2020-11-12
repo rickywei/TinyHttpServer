@@ -12,4 +12,4 @@ after_script:
   - git add .
   - git branch
   - git commit -m "travis auto build"
-  - git push origin
+  - git push
