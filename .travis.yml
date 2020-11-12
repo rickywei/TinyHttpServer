@@ -1,5 +1,5 @@
 language: cpp
-branches: master
+branches: main
 
 # before_script:
 #   - mkdir -p build
@@ -10,8 +10,8 @@ branches: master
 script:
   - ./build.sh
 
-# after_script:
-#   - cd ..
-#   - git add .
-#   - git commit -m "travis auto build"
-#   - git push
+after_script:
+  - cd ..
+  - git add .
+  - git commit -m "travis auto build"
+  - git push
