@@ -172,16 +172,17 @@ void HttpServer::OnWrite_(HttpConn* hc) {
   int ret = -1;
   int writeError = 0;
   ret = hc->Write(writeError);
-  return;
-  if (ret > 0) {
+  if (ret == 0) {
     if (hc->GetIsKeepAlive()) {
       OnProcess_(hc);
       return;
     }
-  } else if (ret < 0) {
-    if (writeError == EAGAIN) {
+  } else {
+    if (ret < 0 && writeError == EAGAIN) {
       epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLOUT);
       return;
+    } else if (ret > 0) {
+      epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLOUT);
     }
   }
   CloseConn_(hc);

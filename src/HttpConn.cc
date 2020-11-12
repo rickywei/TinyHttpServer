@@ -51,7 +51,8 @@ ssize_t HttpConn::Write(int &saveError) {
     saveError = errno;
     return len;
   } else if (len >= write_buff_.size()) {
-    write_buff_.clear();
+    WARN() << "Write complete";
+    return 0;
   } else {
     write_buff_ = write_buff_.substr(len + 1);
   }

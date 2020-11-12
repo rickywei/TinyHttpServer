@@ -60,6 +60,7 @@ bool HttpRequest::Parse(string &buff) {
     }
     start_pos = end_pos + 2;
   }
+  buff.clear();
   return true;
 }
 

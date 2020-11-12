@@ -6,9 +6,7 @@
 
 #IncludeRegexTransform: 
 
-.././inc/HttpResponse.h
-sys/stat.h
--
+.././inc/HttpRequest.h
 string
 -
 unordered_map
@@ -26,16 +24,12 @@ mutex
 string
 -
 
-/home/ricky/projects/TinyHttpServer/src/HttpResponse.cc
-HttpResponse.h
-/home/ricky/projects/TinyHttpServer/src/HttpResponse.h
-assert.h
+/home/ricky/projects/TinyHttpServer/src/HttpRequest.cc
+HttpRequest.h
+/home/ricky/projects/TinyHttpServer/src/HttpRequest.h
+cassert
 -
-fcntl.h
--
-sys/mman.h
--
-unistd.h
+regex
 -
 Logger.h
 /home/ricky/projects/TinyHttpServer/src/Logger.h
