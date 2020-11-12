@@ -1,4 +1,7 @@
-20201112 16:55:52 INFO  /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadPool 13 Create Threadpool...
-20201112 16:55:52 ERROR /home/ricky/projects/TinyHttpServer/src/HttpServer.cc InitSocket_ 90 Bind listent socket failed
-20201112 16:55:52 INFO  /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadPool 13 Create Threadpool...
-20201112 16:55:52 ERROR /home/ricky/projects/TinyHttpServer/src/HttpServer.cc InitSocket_ 90 Bind listent socket failed
+20201112 16:57:46 INFO  /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadPool 13 Create Threadpool...
+20201112 16:57:46 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc InitSocket_ 109 Listen at  0.0.0.0 : 8080
+20201112 16:57:46 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc Start 38 Start Server
+20201112 16:57:52 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc AddHttpConn_ 122 Add new HttpConn from  192.168.56.1
+20201112 16:57:52 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleListen_ 138 Accept from  192.168.56.1
+20201112 16:57:52 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc AddHttpConn_ 122 Add new HttpConn from  192.168.56.1
+20201112 16:57:52 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleListen_ 138 Accept from  192.168.56.1
