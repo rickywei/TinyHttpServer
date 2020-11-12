@@ -11,8 +11,6 @@ script:
   - ./build.sh
 
 after_script:
-  - cd ..
-  - pwd
   - git add .
   - git commit -m "travis auto build"
   - git push
