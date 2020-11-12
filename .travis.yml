@@ -6,7 +6,7 @@ branches: main
 #   - cd build
 #   - rm -rf *
 #   - cmake ..
-
+dist: focal
 script:
   - ./build.sh
 
