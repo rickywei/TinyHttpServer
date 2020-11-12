@@ -4,6 +4,7 @@ A C++ Http Server
 
 ![GitHub](https://img.shields.io/github/license/RickyWei/TinyHttpServer)
 ![GitHub last commit](https://img.shields.io/github/last-commit/RickyWei/TinyHttpServer)
+![Travis (.com)](https://img.shields.io/travis/com/RickyWei/TinyHttpServer)
 
 Features
 
