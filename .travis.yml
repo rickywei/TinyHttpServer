@@ -4,6 +4,8 @@ dist: focal
 
 before_script:
   - git checkout main
+  - git config --global user.name "RickyWei"
+  - git config --global user.email God1W@outlook.com
 
 script:
   - ./build.sh
