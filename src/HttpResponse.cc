@@ -115,14 +115,14 @@ void HttpResponse::AddHeader_(string& buff) {
 void HttpResponse::AddContent_(string& buff) {
   int srcFd = open((src_dir_ + path_).data(), O_RDONLY);
   if (srcFd < 0) {
-    DEBUG() << src_dir_ << path_;
+    ERROR() << "File NotFound" << src_dir_ << path_;
     ErrorContent(buff, "File NotFound!");
     return;
   }
   int* mmRet =
       (int*)mmap(0, mmFile_stat_.st_size, PROT_READ, MAP_PRIVATE, srcFd, 0);
   if (*mmRet == -1) {
-    DEBUG() << "mmap failed";
+    ERROR() << "mmap failed";
     ErrorContent(buff, "File NotFound!");
     return;
   }

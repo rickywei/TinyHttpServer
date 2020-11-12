@@ -40,18 +40,16 @@ ssize_t HttpConn::Read(int &saveError) {
   }
   read_buff_.clear();
   read_buff_.append(buff);
-  DEBUG() << "read_buff_ is" << read_buff_;
   return len;
 }
 
 ssize_t HttpConn::Write(int &saveError) {
   ssize_t len = write(fd_, write_buff_.data(), write_buff_.size());
-  DEBUG() << write_buff_;
   if (len < 0) {
     saveError = errno;
     return len;
   } else if (len >= write_buff_.size()) {
-    WARN() << "Write complete";
+    write_buff_.clear();
     return 0;
   } else {
     write_buff_ = write_buff_.substr(len + 1);
@@ -73,7 +71,6 @@ bool HttpConn::Process() {
   if (read_buff_.size() <= 0) {
     return false;
   } else if (request_.Parse(read_buff_)) {
-    DEBUG() << request_.GetPath();
     response_.Init(src_dir, request_.GetPath(), request_.GetIsKeepAlive(), 200);
   } else {
     response_.Init(src_dir, request_.GetPath(), false, 400);

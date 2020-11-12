@@ -49,11 +49,9 @@ void HttpServer::Start() {
         CloseConn_(&conns_[fd]);
       } else if (events & EPOLLIN) {
         assert(conns_.count(fd) > 0);
-        DEBUG() << "EPOLLIN";
         HandleRead_(&conns_[fd]);
       } else if (events & EPOLLOUT) {
         assert(conns_.count(fd) > 0);
-        DEBUG() << "EPOLLOUT";
         HandleWrite_(&conns_[fd]);
       } else {
       }
@@ -143,14 +141,12 @@ void HttpServer::HandleListen_() {
 void HttpServer::HandleRead_(HttpConn* hc) {
   assert(hc);
   ExtentTime_(hc);
-  ERROR() << "handle read";
   pool_->AddTask(bind(&HttpServer::OnRead_, this, hc));
 }
 
 void HttpServer::HandleWrite_(HttpConn* hc) {
   assert(hc);
   ExtentTime_(hc);
-  ERROR() << "handle write";
   pool_->AddTask(bind(&HttpServer::OnWrite_, this, hc));
 }
 
@@ -163,7 +159,6 @@ void HttpServer::OnRead_(HttpConn* hc) {
     CloseConn_(hc);
     return;
   }
-  DEBUG() << "Process request";
   OnProcess_(hc);
 }
 
@@ -190,10 +185,8 @@ void HttpServer::OnWrite_(HttpConn* hc) {
 
 void HttpServer::OnProcess_(HttpConn* hc) {
   if (hc->Process()) {
-    DEBUG() << "Process successfully, begin to write";
     epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLOUT);
   } else {
-    DEBUG() << "Process failed";
     epoller_->ModFd(hc->GetFd(), conn_event_ | EPOLLIN);
   }
 }

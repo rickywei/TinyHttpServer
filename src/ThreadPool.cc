@@ -34,7 +34,6 @@ void ThreadPool::ThreadFunc() {
       Task task = move(pool_->tasks.front());
       pool_->tasks.pop();
       locker.unlock();
-      ERROR() << to_string(pool_->tasks.size());
       task();
       locker.lock();
     } else if (pool_->isClose) {
@@ -50,6 +49,5 @@ void ThreadPool::AddTask(Task&& task) {
     lock_guard<mutex> locker(pool_->mtx);
     pool_->tasks.emplace(task);
   }
-  ERROR() << "new task";
   pool_->cv.notify_one();
 }
