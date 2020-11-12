@@ -13,4 +13,4 @@ script:
 after_script:
   - git add .
   - git commit -m "travis auto build"
-  - git push
+  - git push origin
