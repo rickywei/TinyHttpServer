@@ -2,11 +2,9 @@ language: cpp
 branches: main
 dist: focal
 
-# before_script:
-#   - mkdir -p build
-#   - cd build
-#   - rm -rf *
-#   - cmake ..
+before_script:
+  - git checkout main
+
 script:
   - ./build.sh
 
