@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+.././inc/HttpResponse.h
+sys/stat.h
+-
+string
+-
+unordered_map
+-
+
+.././inc/Logger.h
+condition_variable
+-
+fstream
+-
+map
+-
+mutex
+-
+string
+-
+
+/home/ricky/projects/TinyHttpServer/src/HttpResponse.cc
+HttpResponse.h
+/home/ricky/projects/TinyHttpServer/src/HttpResponse.h
+assert.h
+-
+fcntl.h
+-
+sys/mman.h
+-
+unistd.h
+-
+Logger.h
+/home/ricky/projects/TinyHttpServer/src/Logger.h
+

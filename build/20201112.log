@@ -1,0 +1,67 @@
+20201112 14:55:01 INFO  /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadPool 13 Create Threadpool...
+20201112 14:55:01 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc InitSocket_ 111 Listen at  0.0.0.0 : 8080
+20201112 14:55:01 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc Start 38 Start Server
+20201112 14:55:09 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc AddHttpConn_ 124 Add new HttpConn from  192.168.56.1
+20201112 14:55:09 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleListen_ 140 Accept from  192.168.56.1
+20201112 14:55:09 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc AddHttpConn_ 124 Add new HttpConn from  192.168.56.1
+20201112 14:55:09 INFO  /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleListen_ 140 Accept from  192.168.56.1
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpServer.cc Start 52 EPOLLIN
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleRead_ 146 handle read
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc AddTask 53 new task
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadFunc 37 0
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpConn.cc Read 43 read_buff_ is GET / HTTP/1.1
+Host: 192.168.56.102:8080
+Connection: keep-alive
+Cache-Control: max-age=0
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36 Edg/86.0.622.63
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh;q=0.6
+
+
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpServer.cc OnRead_ 166 Process request
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParsePath_ 104 path is  /index.html 0
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 41
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Accept-Encoding   gzip, deflate
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Connection   keep-alive
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Cache-Control   max-age=0
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Accept-Language   en-US,en;q=0.9,zh-CN;q=0.8,zh-TW;q=0.7,zh;q=0.6
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Upgrade-Insecure-Requests   1
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 User-Agent   Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.183 Safari/537.36 Edg/86.0.622.63
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Host   192.168.56.102:8080
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc ParseHeader_ 114 Accept   text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 50 No body
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpRequest.cc Parse 52
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpConn.cc Process 75 /index.html
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpServer.cc OnProcess_ 192 Process successfully, begin to write
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpServer.cc Start 56 EPOLLOUT
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/HttpServer.cc HandleWrite_ 153 handle write
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc AddTask 53 new task
+20201112 14:55:09 ERROR /home/ricky/projects/TinyHttpServer/src/ThreadPool.cc ThreadFunc 37 0
+20201112 14:55:09 DEBUG /home/ricky/projects/TinyHttpServer/src/HttpConn.cc Write 49 HTTP/1.1 200 OK
+Connection: keep-alive
+keep-alive: max=6, timeout=120
+Content-type: text/html
+Content-length: 123
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="favicon.ico">
+</head>
+
+<body>
+    <h1>Hello</h1>
+</body>
+
+</html>

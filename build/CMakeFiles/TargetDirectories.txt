@@ -1,0 +1,3 @@
+/home/ricky/projects/TinyHttpServer/build/CMakeFiles/rebuild_cache.dir
+/home/ricky/projects/TinyHttpServer/build/CMakeFiles/HttpServer.exe.dir
+/home/ricky/projects/TinyHttpServer/build/CMakeFiles/edit_cache.dir
