@@ -6,7 +6,7 @@
 
 #include "HttpConn.h"
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -48,6 +48,6 @@ class HttpServer {
   static constexpr int MAX_FD = 65536;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

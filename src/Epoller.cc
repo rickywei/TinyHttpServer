@@ -1,13 +1,13 @@
 #include "Epoller.h"
 
-#include <Logger.h>
 #include <assert.h>
 #include <errno.h>
 #include <fcntl.h>
 #include <unistd.h>
 
-using namespace hs;
-using namespace log;
+#include "Logger.h"
+
+using namespace tiny;
 
 Epoller::Epoller(int max_event)
     : epoll_fd_(epoll_create1(0)), events_(max_event) {

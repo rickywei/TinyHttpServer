@@ -7,7 +7,7 @@
 #include <queue>
 #include <unordered_map>
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -44,6 +44,6 @@ class TimerManager {
   unordered_map<int, SPTN> fd2node_;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

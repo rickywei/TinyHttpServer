@@ -4,7 +4,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -56,6 +56,6 @@ class HttpRequest {
   unordered_map<string, string> post_;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

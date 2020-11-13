@@ -5,7 +5,7 @@
 
 #include <vector>
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -25,6 +25,6 @@ class Epoller {
   vector<struct epoll_event> events_;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

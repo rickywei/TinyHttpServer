@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-using namespace hs;
+using namespace tiny;
 
 TimerManager::TimerManager() {}
 

@@ -1,13 +1,11 @@
 #include "HttpConn.h"
 
+#include <assert.h>
 #include <unistd.h>
-
-#include <cassert>
 
 #include "Logger.h"
 
-using namespace hs;
-using namespace log;
+using namespace tiny;
 
 const string HttpConn::src_dir = string(getcwd(nullptr, 256)).append("/pages/");
 atomic<int> HttpConn::conns;

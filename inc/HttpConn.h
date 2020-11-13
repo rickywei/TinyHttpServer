@@ -10,7 +10,7 @@
 #include "HttpRequest.h"
 #include "HttpResponse.h"
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -43,6 +43,6 @@ class HttpConn {
   HttpResponse response_;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

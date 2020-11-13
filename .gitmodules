@@ -1,0 +1,6 @@
+[submodule "TinyLogger"]
+	path = TinyLogger
+	url = https://github.com/RickyWei/TinyLogger.git
+[submodule "TinyThreadPool"]
+	path = TinyThreadPool
+	url = https://github.com/RickyWei/TinyThreadPool.git

@@ -1,12 +1,12 @@
 #include "HttpRequest.h"
 
-#include <cassert>
+#include <assert.h>
+
 #include <regex>
 
 #include "Logger.h"
 
-using namespace hs;
-using namespace log;
+using namespace tiny;
 
 HttpRequest::HttpRequest()
     : state_(REQUEST_LINE),

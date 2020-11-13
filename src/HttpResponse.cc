@@ -7,8 +7,7 @@
 
 #include "Logger.h"
 
-using namespace hs;
-using namespace log;
+using namespace tiny;
 
 const unordered_map<string, string> HttpResponse::SUFFIX_TYPE = {
     {".html", "text/html"},

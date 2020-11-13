@@ -6,7 +6,7 @@
 #include <string>
 #include <unordered_map>
 
-namespace hs {
+namespace tiny {
 
 using namespace std;
 
@@ -41,6 +41,6 @@ class HttpResponse {
   static const unordered_map<int, string> CODE_PATH;
 };
 
-}  // namespace hs
+}  // namespace tiny
 
 #endif

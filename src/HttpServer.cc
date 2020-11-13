@@ -10,8 +10,7 @@
 #include "ThreadPool.h"
 #include "Timer.h"
 
-using namespace hs;
-using namespace log;
+using namespace tiny;
 
 HttpServer::HttpServer(int port)
     : port_(port),
