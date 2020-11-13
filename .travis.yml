@@ -2,16 +2,13 @@ language: cpp
 branches: main
 dist: focal
 
-before_script:
-  - git checkout main
-  - git config --global user.name "RickyWei"
-  - git config --global user.email God1W@outlook.com
+# before_script:
 
 script:
   - ./build.sh
 
-after_script:
-  - git add .
-  - git branch
-  - git commit -m "travis auto build"
-  - git push
+# after_script:
+#   - git add .
+#   - git branch
+#   - git commit -m "travis auto build"
+#   - git push
