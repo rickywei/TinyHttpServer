@@ -6,7 +6,6 @@ else
   rm -rf ./build/*
 fi
 
-cp -r ./pages ./build 
 cd build
 
 cmake ..
