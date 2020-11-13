@@ -119,7 +119,7 @@ void HttpServer::AddHttpConn_(int fd, sockaddr_in addr) {
   }
   epoller_->AddFd(fd, conn_event_ | EPOLLIN);
   SetFdNoblock(fd);
-  INFO() << "Add new HttpConn from " << inet_ntoa(addr.sin_addr);
+  // INFO() << "Add new HttpConn from " << inet_ntoa(addr.sin_addr);
 }
 
 void HttpServer::HandleListen_() {
@@ -135,7 +135,7 @@ void HttpServer::HandleListen_() {
     return;
   }
   AddHttpConn_(fd, addr);
-  INFO() << "Accept from " << inet_ntoa(addr.sin_addr);
+  // INFO() << "Accept from " << inet_ntoa(addr.sin_addr);
 }
 
 void HttpServer::HandleRead_(HttpConn* hc) {
