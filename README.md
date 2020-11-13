@@ -21,6 +21,28 @@ Features
 
 ---
 
+Performance
+
+- Environment
+  1. Debin10 on virtualbox with settings: 4 CPU core and 4GB memory
+  2. host CPU: Intel(R) Core(TM) i5-1035G4 CPU @ 1.10GHz
+
+```bash
+webbench -t 10 -c 1000 http://127.0.0.1:8080/
+Webbench - Simple Web Benchmark 1.5
+Copyright (c) Radim Kolar 1997-2004, GPL Open Source Software.
+
+Benchmarking: GET http://127.0.0.1:8080/
+1000 clients, running 10 sec.
+
+Speed=624318 pages/min, 5983047 bytes/sec.
+Requests: 104053 susceed, 0 failed.
+
+QPS is about 10405
+```
+
+---
+
 Code summary
 
 ```bash
