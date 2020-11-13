@@ -6,6 +6,8 @@ A C++ Http Server
 ![GitHub last commit](https://img.shields.io/github/last-commit/RickyWei/TinyHttpServer)
 ![Travis (.com)](https://img.shields.io/travis/com/RickyWei/TinyHttpServer)
 
+---
+
 Features
 
 - Use Reactor mode
@@ -16,6 +18,8 @@ Features
 - priority_queue is used for timer manager
 - Use mmap to accelerate file IO
 - logger is used from my other repo [https://github.com/RickyWei/TinyLogger]
+
+---
 
 Code summary
 
@@ -36,3 +40,11 @@ JSON                             1              0              0              3
 SUM:                            39            641            200           3182
 -------------------------------------------------------------------------------
 ```
+
+---
+
+Reference
+
+> [https://github.com/chenshuo/muduo]
+> [https://github.com/qinguoyi/TinyWebServer]
+> [https://github.com/linyacool/WebServer]
